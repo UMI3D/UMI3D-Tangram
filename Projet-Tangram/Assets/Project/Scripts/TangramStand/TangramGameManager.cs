@@ -24,7 +24,7 @@ using umi3d.edk;
 public class TangramGameManager : MonoBehaviour
 {
     public List<TangramPiece> pieces = new List<TangramPiece>(7);
-    public bool randomPieces = false;
+
     public Communication communication;
 
     public Dropdown dropdown;
@@ -208,12 +208,7 @@ public static TangramGameManager Instance
 
     public void NextPiece(UMI3DUser user, string bone)
     {
-        if (randomPieces && !pieces[visibilityIndex].hasBeenPlaced)
-        {
-            randomVisibilityIndex = randomIndex.Next(pieces.Count);
-            pieces[visibilityIndex].isVisible = true;
-        }
-        else if (visibilityIndex == 0 || (visibilityIndex < pieces.Count && pieces[visibilityIndex - 1].hasBeenPlaced))
+        if (visibilityIndex == 0 || (visibilityIndex < pieces.Count && pieces[visibilityIndex - 1].hasBeenPlaced))
         {
             pieces[visibilityIndex].isVisible = true;
             visibilityIndex++;
