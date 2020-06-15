@@ -38,6 +38,8 @@ namespace umi3d.edk
 
         public string ip = "localhost";
 
+        public bool fixedIp = false;
+
         public string socketPath = "/socket";
 
         public bool UseRandomPort;
@@ -86,7 +88,8 @@ namespace umi3d.edk
 
         public void Init()
         {
-            ip = GetLocalIPAddress();
+            if (!fixedIp)
+                ip = GetLocalIPAddress();
             if (UseRandomPort)
                 port = FreeTcpPort();
             else

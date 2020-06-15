@@ -255,6 +255,7 @@ public static TangramGameManager Instance
                     break;
             }
             communication = Communication.None;
+            visibilityIndex = 0;
         }
 
         foreach (UMI3DUser user in UMI3D.UserManager.GetUsers())
