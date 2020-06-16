@@ -272,6 +272,7 @@ public static TangramGameManager Instance
     public void ResetTangram()
     {
         Reset();
+        Start();
         dropdown.value = 0;    
     }
 
@@ -351,7 +352,6 @@ public static TangramGameManager Instance
         }
     }
 
-
     private void Awake()
     {
         UMI3D.OnUserQuit.AddListener((UMI3DUser user) =>
@@ -359,6 +359,7 @@ public static TangramGameManager Instance
             roleDictionary.Remove(user.UserId);
         });
     }
+
 }
 
 public static class ListExtensions
