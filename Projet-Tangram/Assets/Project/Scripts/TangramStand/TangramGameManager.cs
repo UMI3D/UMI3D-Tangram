@@ -24,6 +24,7 @@ using umi3d.edk;
 public class TangramGameManager : MonoBehaviour
 {
     public List<TangramPiece> pieces = new List<TangramPiece>(7);
+    public bool randomisePieces = false;
 
     public Communication communication;
 
@@ -51,8 +52,6 @@ public class TangramGameManager : MonoBehaviour
     public List<Sprite> blueTextures = new List<Sprite>();
     public List<Sprite> redTextures = new List<Sprite>();
 
-    private System.Random randomIndex = new System.Random();
-    private int randomVisibilityIndex;
     private int visibilityIndex = 0;
 
     private static TangramGameManager instance;
@@ -80,6 +79,12 @@ public static TangramGameManager Instance
             }
             return instance;
         }
+    }
+
+    void Start()
+    {
+        if (randomisePieces)
+            pieces.Shuffle();
     }
 
     private Dictionary<string, UserRole> roleDictionary = new Dictionary<string, UserRole>();
@@ -267,6 +272,7 @@ public static TangramGameManager Instance
     public void ResetTangram()
     {
         Reset();
+        Start();
         dropdown.value = 0;    
     }
 
@@ -346,13 +352,30 @@ public static TangramGameManager Instance
         }
     }
 
-
     private void Awake()
     {
         UMI3D.OnUserQuit.AddListener((UMI3DUser user) =>
         {
             roleDictionary.Remove(user.UserId);
         });
+    }
+
+}
+
+public static class ListExtensions
+{
+    public static void Shuffle<T>(this IList<T> list)
+    {
+        System.Random randomInt = new System.Random();
+        for (var index = 0; index < list.Count; index++)
+            list.Swap(index, randomInt.Next(index, list.Count));
+    }
+
+    public static void Swap<T>(this IList<T> list, int i, int j)
+    {
+        var tmp = list[i];
+        list[i] = list[j];
+        list[j] = tmp;
     }
 }
 
