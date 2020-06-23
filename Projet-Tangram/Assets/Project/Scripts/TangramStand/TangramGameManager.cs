@@ -294,6 +294,11 @@ public static TangramGameManager Instance
         else
             glyph = redGlyph;
 
+        GlyphDisplay(glyph, img);
+    }
+
+    public void GlyphDisplay(Image glyph, Image img)
+    {
         glyph.GetComponent<UIImage>().sprite.Path = img.GetComponent<UIImage>().sprite.Path;
         Debug.Log(glyph.GetComponent<UIImage>().sprite.Path);
         glyph.color = new Color(1, 1, 1, 1);
@@ -311,8 +316,8 @@ public static TangramGameManager Instance
         }
 
         glyph.color = new Color(1, 1, 1, 0);
-        glyph.GetComponent<UIImage>().sprite.Path = "";
-        glyph.sprite = null;
+//        glyph.GetComponent<UIImage>().sprite.Path = "";
+//        glyph.sprite = null;
     }
 
     private const int Columns = 3;
@@ -321,13 +326,14 @@ public static TangramGameManager Instance
     private void ArrangeChildren(Transform buttonAnchor, UserRole role)
     {
         Transform[] children;
-
         List<Sprite> sprites;
 
         if (role.Equals(UserRole.BluePill))
-            sprites = blueTextures;
+            sprites = blueTextures; 
         else
+        {
             sprites = redTextures;
+        }
 
         children = new Transform[sprites.Count];
 
@@ -339,7 +345,7 @@ public static TangramGameManager Instance
             children[i].localRotation = Quaternion.identity;
             int row = i / Columns;
             int column = i % Columns;
-            children[i].localPosition = new Vector3(- column * 0.55f * Space, - row * 0.7f * Space, 0);
+            children[i].localPosition = new Vector3(-column * 0.55f * Space, -row * 0.7f * Space, 0);
 
             PillSeeFilter filter = children[i].gameObject.AddComponent<PillSeeFilter>();
             filter.userRole = role;
