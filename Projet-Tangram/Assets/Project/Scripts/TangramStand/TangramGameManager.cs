@@ -66,7 +66,7 @@ public class TangramGameManager : MonoBehaviour
     private Image blueGlyph;
     private Image redGlyph;
 
-public static TangramGameManager Instance
+    public static TangramGameManager Instance
     {
         get
         {
@@ -334,8 +334,8 @@ public static TangramGameManager Instance
         }
 
         glyph.color = new Color(1, 1, 1, 0);
-//        glyph.GetComponent<UIImage>().sprite.Path = "";
-//        glyph.sprite = null;
+        glyph.GetComponent<UIImage>().sprite.Path = "";
+        glyph.sprite = null;
     }
 
     private const int Columns = 3;

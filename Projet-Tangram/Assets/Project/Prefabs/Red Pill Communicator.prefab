@@ -176,6 +176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   userRole: 1
   canSee: 1
+  isVisibleToBoth: 0
 --- !u!1 &8396450225846238583
 GameObject:
   m_ObjectHideFlags: 0
