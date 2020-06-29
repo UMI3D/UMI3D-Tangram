@@ -38,7 +38,9 @@ public class TangramGameManager : MonoBehaviour
     public GameObject prefabRedGlyph;
 
     public GameObject blueButtonsAnchor;
-    public GameObject redButtonsAnchor;
+    public GameObject redButtonsFeedbackAnchor;
+    public GameObject redButtonsDirectionAnchor;
+    public GameObject redButtonsRotationAnchor;
 
     public GameObject buttonPrefab;
 
@@ -50,7 +52,9 @@ public class TangramGameManager : MonoBehaviour
     public List<string> redExpressions = new List<string>();
 
     public List<Sprite> blueTextures = new List<Sprite>();
-    public List<Sprite> redTextures = new List<Sprite>();
+    public List<Sprite> redFeedbackTextures = new List<Sprite>();
+    public List<Sprite> redDirectionTextures = new List<Sprite>();
+    public List<Sprite> redRotationTextures = new List<Sprite>();
 
     private int visibilityIndex = 0;
 
@@ -62,7 +66,7 @@ public class TangramGameManager : MonoBehaviour
     private Image blueGlyph;
     private Image redGlyph;
 
-public static TangramGameManager Instance
+    public static TangramGameManager Instance
     {
         get
         {
@@ -117,7 +121,7 @@ public static TangramGameManager Instance
                     break;
                 case Communication.Glyphs:
                     blueGlyph = (Instantiate(prefabBlueGlyph, user.avatar.anchor.transform)).GetComponentInChildren<Image>();
-                    ArrangeChildren(blueButtonsAnchor.transform, UserRole.BluePill);
+                    ArrangeChildren(blueButtonsAnchor.transform, blueTextures, UserRole.BluePill);
                     break;
                 case Communication.Expressions:
                     blueCom = Instantiate(prefabBlueCommunicator, user.avatar.anchor.transform);
@@ -145,7 +149,9 @@ public static TangramGameManager Instance
                     break;
                 case Communication.Glyphs:
                     redGlyph = (Instantiate(prefabRedGlyph, user.avatar.anchor.transform)).GetComponentInChildren<Image>();
-                    ArrangeChildren(redButtonsAnchor.transform, UserRole.RedPill);
+                    ArrangeChildren(redButtonsFeedbackAnchor.transform, redFeedbackTextures, UserRole.RedPill);
+                    ArrangeChildren(redButtonsDirectionAnchor.transform, redDirectionTextures, UserRole.RedPill);
+                    ArrangeChildren(redButtonsRotationAnchor.transform, redRotationTextures, UserRole.RedPill);
                     break;
                 case Communication.Expressions:
                     redCom = Instantiate(prefabRedCommunicator, user.avatar.anchor.transform);
@@ -196,7 +202,13 @@ public static TangramGameManager Instance
                 case Communication.Glyphs:
                     Destroy(redGlyph.transform.parent.gameObject);
 
-                    foreach (Transform child in redButtonsAnchor.transform)
+                    foreach (Transform child in redButtonsFeedbackAnchor.transform)
+                        Destroy(child.gameObject);
+
+                    foreach (Transform child in redButtonsDirectionAnchor.transform)
+                        Destroy(child.gameObject);
+
+                    foreach (Transform child in redButtonsRotationAnchor.transform)
                         Destroy(child.gameObject);
 
                     break;
@@ -248,7 +260,13 @@ public static TangramGameManager Instance
                     foreach (Transform child in blueButtonsAnchor.transform)   
                         Destroy(child.gameObject); 
                     
-                    foreach (Transform child in redButtonsAnchor.transform)
+                    foreach (Transform child in redButtonsFeedbackAnchor.transform)
+                        Destroy(child.gameObject);
+
+                    foreach (Transform child in redButtonsDirectionAnchor.transform)
+                        Destroy(child.gameObject);
+
+                    foreach (Transform child in redButtonsRotationAnchor.transform)
                         Destroy(child.gameObject);
 
                     break;
@@ -294,6 +312,11 @@ public static TangramGameManager Instance
         else
             glyph = redGlyph;
 
+        GlyphDisplay(glyph, img);
+    }
+
+    public void GlyphDisplay(Image glyph, Image img)
+    {
         glyph.GetComponent<UIImage>().sprite.Path = img.GetComponent<UIImage>().sprite.Path;
         Debug.Log(glyph.GetComponent<UIImage>().sprite.Path);
         glyph.color = new Color(1, 1, 1, 1);
@@ -318,16 +341,9 @@ public static TangramGameManager Instance
     private const int Columns = 3;
     private const float Space = 0.12f;
 
-    private void ArrangeChildren(Transform buttonAnchor, UserRole role)
+    private void ArrangeChildren(Transform buttonAnchor, List<Sprite> sprites, UserRole role)
     {
         Transform[] children;
-
-        List<Sprite> sprites;
-
-        if (role.Equals(UserRole.BluePill))
-            sprites = blueTextures;
-        else
-            sprites = redTextures;
 
         children = new Transform[sprites.Count];
 
@@ -339,7 +355,7 @@ public static TangramGameManager Instance
             children[i].localRotation = Quaternion.identity;
             int row = i / Columns;
             int column = i % Columns;
-            children[i].localPosition = new Vector3(- column * 0.55f * Space, - row * 0.7f * Space, 0);
+            children[i].localPosition = new Vector3(-column * 0.55f * Space, -row * 0.7f * Space, 0);
 
             PillSeeFilter filter = children[i].gameObject.AddComponent<PillSeeFilter>();
             filter.userRole = role;

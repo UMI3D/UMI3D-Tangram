@@ -23,7 +23,7 @@ MonoBehaviour:
   NormalMapScale: 1
   AlbedoTextureResource:
     Domain: 
-    Path: /Textures/Baleine_Tangram.png
+    Path: /Textures/TangramFigures/Default.png
     ApiKey: 
     Login: 
     Password: 

@@ -22,12 +22,15 @@ using umi3d.edk;
 public class PillSeeFilter : VisibilityFilter
 {
     public UserRole userRole;
-    public bool canSee = true; 
+    public bool canSee = true;
+    public bool isVisibleToBoth = false;
 
     public override bool Accept(UMI3DUser user)
-    {   
+    {
         if (canSee)
             return TangramGameManager.Instance.getRole(user.UserId) != null && TangramGameManager.Instance.getRole(user.UserId) == userRole;
+        else if (isVisibleToBoth)
+            return TangramGameManager.Instance.getRole(user.UserId) != null;
         else
             return !(TangramGameManager.Instance.getRole(user.UserId) != null && TangramGameManager.Instance.getRole(user.UserId) == userRole);
     }
