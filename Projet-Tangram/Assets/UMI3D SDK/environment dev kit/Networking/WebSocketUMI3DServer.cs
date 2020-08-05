@@ -370,8 +370,7 @@ namespace umi3d.edk
             if (req.QueryString.Get("reset") != null)
             {
                 Debug.Log("Reset1");
-                //TangramGameManager.Instance.TransmitGlyph(null,null);
-                TangramGameManager.InvokeEvent(TangramGameManager.ResetEvent);
+                UnityMainThreadDispatcher.Instance().Enqueue(TangramGameManager.Instance.ResetFromWebPage());
                 Debug.Log("Reset2");
             }
 
@@ -379,7 +378,7 @@ namespace umi3d.edk
             if (commMode != null)
             {
                 Debug.Log(commMode + "1");
-                TangramGameManager.Instance.SetCommunication(commMode);
+                UnityMainThreadDispatcher.Instance().Enqueue(TangramGameManager.Instance.SetCommunicationFromWebPage(commMode));
                 Debug.Log(commMode + "2");
             }
         }

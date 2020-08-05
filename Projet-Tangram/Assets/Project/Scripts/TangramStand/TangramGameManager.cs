@@ -256,21 +256,27 @@ public class TangramGameManager : MonoBehaviour
         }
     }
 
+    public IEnumerator SetCommunicationFromWebPage(string mode)
+    {
+        SetCommunication(mode);
+        yield return null;
+    }
+
+    public IEnumerator ResetFromWebPage()
+    {
+        ResetTangram();
+        yield return null;
+    }
+
     protected void Reset()
     {
         foreach (TangramPiece piece in pieces)
         {
-            Debug.Log("kg,rkg,rkg");
             piece.transform.localPosition = Vector3.zero;
-            Debug.Log("efefefefee");
             piece.transform.localRotation = Quaternion.identity;
-            Debug.Log("efrjiiiiiii");
             piece.isVisible = false;
-            Debug.Log("ttttttttttttttttttt");
             piece.hasBeenPlaced = false;
-            Debug.Log("eeeeeeeeeeeeeeeeeeee");
             roleDictionary.Clear();
-            Debug.Log("rtr00");
             switch (communication)
             {
                 case Communication.None:
@@ -328,11 +334,11 @@ public class TangramGameManager : MonoBehaviour
         dropdown.value = 0;    
     }
 
-    public void SetCommunication(string mode)
+    protected void SetCommunication(string mode)
     {
-        //Reset();
+        Reset();
         Debug.Log(mode);
-        communication = (Communication)System.Enum.Parse(typeof(Communication), mode);
+        communication = (Communication)System.Enum.Parse(typeof(Communication), char.ToUpper(mode[0]) + mode.Substring(1));
         Debug.Log(communication.ToString());
     }
 
