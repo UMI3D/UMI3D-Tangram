@@ -221,6 +221,7 @@ namespace umi3d.edk
             anchor.transform.SetParent(avt.transform);
 
             avt.viewpoint = viewpoint.AddComponent<Camera>();
+            avt.viewpoint.enabled = false;
             avt.anchor = anchor;
 
             if (DisplayName && UsernameDisplayer != null)

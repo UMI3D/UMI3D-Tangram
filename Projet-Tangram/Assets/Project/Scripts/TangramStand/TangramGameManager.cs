@@ -20,6 +20,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using umi3d.common;
 using umi3d.edk;
+using UnityEngine.Events;
 
 public class TangramGameManager : MonoBehaviour
 {
@@ -58,7 +59,9 @@ public class TangramGameManager : MonoBehaviour
 
     private int visibilityIndex = 0;
 
-    private static TangramGameManager instance;
+    //private static TangramGameManager instance;
+
+    public TangramGameManager Manager;
 
     private GameObject blueCom;
     private GameObject redCom;
@@ -66,26 +69,47 @@ public class TangramGameManager : MonoBehaviour
     private Image blueGlyph;
     private Image redGlyph;
 
-    public static TangramGameManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<TangramGameManager>();
+    public static UnityEvent ResetEvent = new UnityEvent();
 
-                if (instance == null)
-                {
-                    GameObject go = new GameObject();
-                    instance = go.AddComponent<TangramGameManager>();
-                    Debug.Log("New Tangram Game Manager");
-                }
-            }
-            return instance;
-        }
+    public static TangramGameManager Instance;
+    //{
+    //    get
+    //    {
+    //        if (instance == null)
+    //        {
+    //            instance = FindObjectOfType<TangramGameManager>();
+
+    //            if (instance == null)
+    //            {
+    //                GameObject go = GameObject.Find(typeof(TangramGameManager).Name);
+    //                if (go) instance = go.GetComponent<TangramGameManager>();
+    //                else
+    //                {
+    //                    go = new GameObject();
+    //                    go.name = typeof(TangramGameManager).Name;
+    //                    instance = go.AddComponent<TangramGameManager>();
+    //                }
+    //                Debug.Log("New Tangram Game Manager");
+    //            }
+    //        }
+    //        Debug.Log(Instance.name);
+    //        return instance;
+    //    }
+
+    //    set
+    //    {
+    //        if (instance == null) instance = value;
+    //        else Debug.LogError("Instance of " + typeof(TangramGameManager) + " already exist, Instance could not be set");
+    //    }
+    //}
+
+
+    public static void InvokeEvent(UnityEvent e)
+    {
+        e.Invoke();
     }
 
-    void Start()
+    void RandomizePieces()
     {
         if (randomisePieces)
             pieces.Shuffle();
@@ -232,17 +256,21 @@ public class TangramGameManager : MonoBehaviour
         }
     }
 
-    private void Reset()
+    protected void Reset()
     {
         foreach (TangramPiece piece in pieces)
         {
-            StopAllCoroutines(); 
+            Debug.Log("kg,rkg,rkg");
             piece.transform.localPosition = Vector3.zero;
+            Debug.Log("efefefefee");
             piece.transform.localRotation = Quaternion.identity;
+            Debug.Log("efrjiiiiiii");
             piece.isVisible = false;
+            Debug.Log("ttttttttttttttttttt");
             piece.hasBeenPlaced = false;
+            Debug.Log("eeeeeeeeeeeeeeeeeeee");
             roleDictionary.Clear();
-
+            Debug.Log("rtr00");
             switch (communication)
             {
                 case Communication.None:
@@ -252,10 +280,16 @@ public class TangramGameManager : MonoBehaviour
                 case Communication.Glyphs:
 
                     if (blueGlyph != null)
+                    {
+                        blueGlyph.StopCoroutine("GlyphDisappearing");
                         Destroy(blueGlyph.transform.parent.gameObject);
+                    }
 
                     if (redGlyph != null)
+                    {
+                        redGlyph.StopCoroutine("GlyphDisappearing");
                         Destroy(redGlyph.transform.parent.gameObject);
+                    }
 
                     foreach (Transform child in blueButtonsAnchor.transform)   
                         Destroy(child.gameObject); 
@@ -290,8 +324,16 @@ public class TangramGameManager : MonoBehaviour
     public void ResetTangram()
     {
         Reset();
-        Start();
+        RandomizePieces();
         dropdown.value = 0;    
+    }
+
+    public void SetCommunication(string mode)
+    {
+        //Reset();
+        Debug.Log(mode);
+        communication = (Communication)System.Enum.Parse(typeof(Communication), mode);
+        Debug.Log(communication.ToString());
     }
 
     public void SetCommunication(Text mode)
@@ -302,17 +344,20 @@ public class TangramGameManager : MonoBehaviour
 
     public void TransmitGlyph(UMI3DUser user, Image img)
     {
-        Image glyph;
+        if (user != null && img != null)
+        {
+            Image glyph;
 
-        UserRole role = roleDictionary[user.UserId];
+            UserRole role = roleDictionary[user.UserId];
 
-        if (role.Equals(UserRole.BluePill))
-            glyph = blueGlyph;
+            if (role.Equals(UserRole.BluePill))
+                glyph = blueGlyph;
 
-        else
-            glyph = redGlyph;
+            else
+                glyph = redGlyph;
 
-        GlyphDisplay(glyph, img);
+            GlyphDisplay(glyph, img);
+        }
     }
 
     public void GlyphDisplay(Image glyph, Image img)
@@ -370,10 +415,29 @@ public class TangramGameManager : MonoBehaviour
 
     private void Awake()
     {
+
+        Instance = Manager;
+
+        //if (instance != null && instance != this)
+        //{
+        //    if (instance.gameObject.name == this.gameObject.name)
+        //        Debug.LogWarning("There is already a Singleton<" + typeof(TangramGameManager) + "> , instance on " + this.gameObject.name + " will be exterminated. This could occur after reloaded a scene with a PersistentSingleton in it");
+        //    else
+        //        Debug.LogError("There is already a Singleton<" + typeof(TangramGameManager) + "> , instance on " + this.gameObject.name + " will be exterminated.");
+        //    Destroy(this);
+        //}
+        //else
+        //{
+        //    instance = this as TangramGameManager;
+        //    DontDestroyOnLoad(this);
+        //}
+
         UMI3D.OnUserQuit.AddListener((UMI3DUser user) =>
         {
             roleDictionary.Remove(user.UserId);
         });
+
+        ResetEvent.AddListener(Reset);
     }
 
 }

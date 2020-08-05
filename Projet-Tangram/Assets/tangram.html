@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<title>Tangram Settings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<body>
+    <style>
+
+        .center {
+            margin: 0;
+            position: absolute;
+            top: 2%;
+            left: 2%;
+        }
+
+        .button {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            background-color: indianred;
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 25px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+            .button:hover {
+                background-color: brown;
+            }
+
+            .button:active {
+                background-color: brown;
+                box-shadow: 0 1px #666;
+                transform: translateY(1px);
+            }
+
+        .sendingButton {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            background-color: darkseagreen;
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+            .sendingButton:hover {
+                background-color: #3e8e41;
+            }
+
+            .sendingButton:active {
+                background-color: #3e8e41;
+                box-shadow: 0 1px #666;
+                transform: translateY(1px);
+            }
+
+        .bigTitle {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 30px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .simpleTitle {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 19px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .selector {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            padding: 15px 32px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+
+    <div class=center>
+        <h2 class=bigTitle>Tangram Settings</h2></br></br >
+        <input type="submit" onclick="resetTangram();" value="Reset Tangram" class=button> </br > </br >
+        <h2 class=simpleTitle>Communication Mode</h2></br>
+        <select class=selector id="commMode">
+            <option value="none"> None</option>
+            <option value="voice"> Voice</option>
+            <option value="glyphs"> Glyphs</option>
+            <option value="expressions"> Expressions</option>
+        </select></br>
+        <input type="submit" onclick="setCommunication();" value="Validate" class=sendingButton></br>
+    </div>
+
+    <script>
+        function resetTangram() {
+            var formData = new FormData();
+            formData.append('reset', 'true');
+
+            var request = new XMLHttpRequest();
+            request.open("POST", "http://192.168.1.21:50047/tangram?reset=true");
+            request.send(formData);
+        }
+
+        function setCommunication() {
+            var e = document.getElementById("commMode");
+            var mode = e.options[e.selectedIndex].value;
+
+            var formData = new FormData();
+            formData.append('communication', mode);
+
+            var request = new XMLHttpRequest();
+            request.open("POST", "http://192.168.1.21:50047/tangram?communication="+mode);
+            request.send(formData);
+        }
+    </script>
+
+</body>
+</html>

@@ -24,6 +24,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Reflection;
 using System.IO;
+using System.Web;
 using umi3d.common;
 using MainThreadDispatcher;
 
@@ -49,6 +50,7 @@ namespace umi3d.edk
 
         public string GetEnvironmentUrl()
         {
+            Debug.Log(ip + ":" + port);
             return "http://" + ip + ":" + port;
         }
 
@@ -358,6 +360,31 @@ namespace umi3d.edk
             }
 
         }
+
+        //TANGRAM
+        [Post("/tangram")]
+        public void UpdateTangram(object sender, HttpRequestEventArgs e)
+        {
+            var req = e.Request;
+
+            if (req.QueryString.Get("reset") != null)
+            {
+                Debug.Log("Reset1");
+                //TangramGameManager.Instance.TransmitGlyph(null,null);
+                TangramGameManager.InvokeEvent(TangramGameManager.ResetEvent);
+                Debug.Log("Reset2");
+            }
+
+            string commMode = req.QueryString.Get("communication");
+            if (commMode != null)
+            {
+                Debug.Log(commMode + "1");
+                TangramGameManager.Instance.SetCommunication(commMode);
+                Debug.Log(commMode + "2");
+            }
+        }
+
+
         #endregion
 
         #region automated rooting
