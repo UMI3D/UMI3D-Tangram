@@ -29,32 +29,32 @@ public class TangramNotification : MonoBehaviour
     {
         if (message != defaultAnswer)
         {
-            NotificationDto notif = new NotificationDto()
-            {
-                title = user.UserName,
-                content = message,
-                duration = duration,
-            };
+            //NotificationDto notif = new NotificationDto()
+            //{
+            //    title = user.UserName,
+            //    content = message,
+            //    duration = duration,
+            //};
 
-            foreach (UMI3DUser presentUser in UMI3D.UserManager.GetUsers())
-            {
-                UMI3DNotifier.Notify(presentUser, notif);
-            }
+            //foreach (UMI3DUser presentUser in UMI3D.UserManager.GetUsers())
+            //{
+            //    UMI3DNotifier.Notify(presentUser, notif);
+            //}
         }
     }
 
     public void SendGlyphNotification(UMI3DUser user)
     {
-        NotificationDto notif = new NotificationDto()
-        {
-            title = user.UserName,
-            content = "has sent a glyph !",
-            duration = duration,
-        };
+        //NotificationDto notif = new NotificationDto()
+        //{
+        //    title = user.UserName,
+        //    content = "has sent a glyph !",
+        //    duration = duration,
+        //};
 
-        foreach (UMI3DUser presentUser in UMI3D.UserManager.GetUsers())
-        {
-            UMI3DNotifier.Notify(presentUser, notif);
-        }
+        //foreach (UMI3DUser presentUser in UMI3D.UserManager.GetUsers())
+        //{
+        //    UMI3DNotifier.Notify(presentUser, notif);
+        //}
     }
 }

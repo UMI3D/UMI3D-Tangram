@@ -9,49 +9,57 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f57c7e15c7925c742855c9dc52171d49, type: 3}
+  m_Script: {fileID: 11500000, guid: eaf1a468f36bf3045946c550d39589d7, type: 3}
   m_Name: Gray
   m_EditorClassIdentifier: 
-  ShaderChosen: 2
-  Transparent: 0
-  AlbedoColor: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 1}
-  SpecularColor: {r: 0, g: 0, b: 0, a: 0}
-  EmissiveColor: {r: 0, g: 0, b: 0, a: 0}
-  Shininess: 0.5
-  Height: 0.02
-  Glossiness: 0.02
-  NormalMapScale: 1
-  AlbedoTextureResource:
-    Domain: 
-    Path: 
-    ApiKey: 
-    Login: 
-    Password: 
-    RequestType: 
-    IsLocalFile: 0
-  NormalMapResource:
-    Domain: 
-    Path: 
-    ApiKey: 
-    Login: 
-    Password: 
-    RequestType: 
-    IsLocalFile: 0
-  HeightMapResource:
-    Domain: 
-    Path: 
-    ApiKey: 
-    Login: 
-    Password: 
-    RequestType: 
-    IsLocalFile: 0
-  MetallicMapResource:
-    Domain: 
-    Path: 
-    ApiKey: 
-    Login: 
-    Password: 
-    RequestType: 
-    IsLocalFile: 0
-  MainMapsTiling: {x: 1, y: 1}
-  MainMapsOffset: {x: 1, y: 1}
+  alphaMode: 2
+  baseColorFactor: {r: 0.6509434, g: 0.6509434, b: 0.6509434, a: 1}
+  metallicFactor: 0
+  roughnessFactor: 0
+  emissive: {r: 0, g: 0, b: 0, a: 0}
+  textures:
+    id: z5JvsocPL0COlqJKJcQrqQ==
+    baseColorTexture:
+      variants: []
+      animationId: 
+      audioSourceId: 
+      streamingFromUserId: 
+    metallicRoughnessTexture:
+      variants: []
+      animationId: 
+      audioSourceId: 
+      streamingFromUserId: 
+    normalTexture:
+      variants: []
+      animationId: 
+      audioSourceId: 
+      streamingFromUserId: 
+      scale: 1
+    emissiveTexture:
+      variants: []
+      animationId: 
+      audioSourceId: 
+      streamingFromUserId: 
+    occlusionTexture:
+      variants: []
+      animationId: 
+      audioSourceId: 
+      streamingFromUserId: 
+    metallicTexture:
+      variants: []
+      animationId: 
+      audioSourceId: 
+      streamingFromUserId: 
+    roughnessTexture:
+      variants: []
+      animationId: 
+      audioSourceId: 
+      streamingFromUserId: 
+    heightTexture:
+      variants: []
+      animationId: 
+      audioSourceId: 
+      streamingFromUserId: 
+      scale: 1
+  tilingScale: {x: 1, y: 1}
+  tilingOffset: {x: 0, y: 0}

@@ -25,7 +25,7 @@ public class GlyphTransmitter : MonoBehaviour
 {
     public void TransmitGlyph(UMI3DUser user, string boneId)
     {
-        TangramGameManager.Instance.TransmitGlyph(user, GetComponent<Image>());
-        GetComponent<TangramNotification>().SendGlyphNotification(user);
+        //TangramGameManager.Instance.TransmitGlyph(user, GetComponent<Image>());
+        //GetComponent<TangramNotification>().SendGlyphNotification(user);
     }
 }

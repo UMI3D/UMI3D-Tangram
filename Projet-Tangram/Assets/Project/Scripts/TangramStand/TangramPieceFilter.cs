@@ -19,14 +19,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using umi3d.edk;
 
-public class TangramPieceFilter : VisibilityFilter
-{
-    public override bool Accept(UMI3DUser user)
-    {
-        TangramPiece piece = GetComponent<TangramPiece>();
-        if (TangramGameManager.Instance.getRole(user.UserId) == UserRole.BluePill)
-            return piece.isVisible;
-        else
-            return (piece.isVisible && piece.isEquiped) || piece.hasBeenPlaced;
-    }
-}
+//public class TangramPieceFilter : VisibilityFilter
+//{
+//    public override bool Accept(UMI3DUser user)
+//    {
+//        //TangramPiece piece = GetComponent<TangramPiece>();
+//        //if (TangramGameManager.Instance.getRole(user.UserId) == UserRole.BluePill)
+//        //    return piece.isVisible;
+//        //else
+//        //    return (piece.isVisible && piece.isEquiped) || piece.hasBeenPlaced;
+//    }
+//}

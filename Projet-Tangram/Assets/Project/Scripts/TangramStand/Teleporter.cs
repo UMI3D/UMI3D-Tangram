@@ -27,16 +27,16 @@ public class Teleporter : MonoBehaviour
 
     public void TeleportUser(UMI3DUser user, Transform pos)
     {
-        Vector3 spawnPos = new Vector3(
-            pos.position.x,
-            pos.position.y,
-            pos.position.z
-            );
+        //Vector3 spawnPos = new Vector3(
+        //    pos.position.x,
+        //    pos.position.y,
+        //    pos.position.z
+        //    );
         
-        if (Directed)
-            user.Send(new TeleportDto() { Position = spawnPos, Rotation = transform.localRotation });
-        else
-            user.Send(new TeleportDto() { Position = spawnPos });
+        //if (Directed)
+        //    user.Send(new TeleportDto() { Position = spawnPos, Rotation = transform.localRotation });
+        //else
+        //    user.Send(new TeleportDto() { Position = spawnPos });
     }
 
     protected IEnumerator TeleportWithDelay(UMI3DUser user, float delay)
