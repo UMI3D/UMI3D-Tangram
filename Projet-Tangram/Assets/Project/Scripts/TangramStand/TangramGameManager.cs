@@ -18,8 +18,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using umi3d.common;
 using umi3d.edk;
+using umi3d.edk.userCapture;
+using umi3d.edk.collaboration;
+using umi3d.edk.interaction;
+using umi3d.common.interaction;
+using umi3d.common.userCapture;
+using umi3d.common.collaboration;
 using UnityEngine.Events;
 
 public class TangramGameManager : MonoBehaviour
@@ -104,365 +109,369 @@ public class TangramGameManager : MonoBehaviour
     //}
 
 
-//    public static void InvokeEvent(UnityEvent e)
-//    {
-//        e.Invoke();
-//    }
+    //public static void InvokeEvent(UnityEvent e)
+    //{
+    //    e.Invoke();
+    //}
 
-//    void RandomizePieces()
-//    {
-//        if (randomisePieces)
-//            pieces.Shuffle();
-//    }
+    void RandomizePieces()
+    {
+        if (randomisePieces)
+            pieces.Shuffle();
+    }
 
-//    private Dictionary<string, UserRole> roleDictionary = new Dictionary<string, UserRole>();
+    private Dictionary<string, UserRole> roleDictionary = new Dictionary<string, UserRole>();
 
-//    public UserRole? getRole(string userId)
-//    {
-//        if (roleDictionary.ContainsKey(userId))
-//            return roleDictionary[userId];
-//        else
-//            return null;
-//    }
+    public UserRole? getRole(string userId)
+    {
+        if (roleDictionary.ContainsKey(userId))
+            return roleDictionary[userId];
+        else
+            return null;
+    }
 
-//    public void RemoveUser(string userId)
-//    {
-//        if (roleDictionary.ContainsKey(userId))
-//            roleDictionary.Remove(userId);
-//    }
+    public void RemoveUser(string userId)
+    {
+        if (roleDictionary.ContainsKey(userId))
+            roleDictionary.Remove(userId);
+    }
 
-//    public void AddBluePill(UMI3DUser user, string bone)
-//    {
-//        if (!roleDictionary.ContainsValue(UserRole.BluePill) && !roleDictionary.ContainsKey(user.UserId))
-//        {
-//            roleDictionary.Add(user.UserId, UserRole.BluePill);
+    public void AddBluePill(UMI3DTrackedUser user, string bone)
+    {
+        if (!roleDictionary.ContainsValue(UserRole.BluePill) && !roleDictionary.ContainsKey(user.Id()))
+        {
+            roleDictionary.Add(user.Id(), UserRole.BluePill);
 
-//            switch (communication)
-//            {
-//                case Communication.None:
-//                    break;
-//                case Communication.Voice:
-//                    break;
-//                case Communication.Glyphs:
-//                    blueGlyph = (Instantiate(prefabBlueGlyph, user.avatar.anchor.transform)).GetComponentInChildren<Image>();
-//                    ArrangeChildren(blueButtonsAnchor.transform, blueTextures, UserRole.BluePill);
-//                    break;
-//                case Communication.Expressions:
-//                    blueCom = Instantiate(prefabBlueCommunicator, user.avatar.anchor.transform);
-//                    blueCom.GetComponent<StringEnumParameter>().options = redExpressions;
-//                    blueCom.GetComponent<TangramNotification>().duration = alertDuration;
-//                    blueCom.GetComponent<TangramNotification>().defaultAnswer = defaultAnswer;
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//    }
+            switch (communication)
+            {
+                case Communication.None:
+                    break;
+                case Communication.Voice:
+                    break;
+                case Communication.Glyphs:
+                    blueGlyph = (Instantiate(prefabBlueGlyph, user.Avatar.transform)).GetComponentInChildren<Image>();
+                    ArrangeChildren(blueButtonsAnchor.transform, blueTextures, UserRole.BluePill);
+                    break;
+                case Communication.Expressions:
+                    blueCom = Instantiate(prefabBlueCommunicator, user.Avatar.transform);
+                    blueCom.GetComponent<StringEnumParameter>().options = redExpressions;
+                    blueCom.GetComponent<TangramNotification>().duration = alertDuration;
+                    blueCom.GetComponent<TangramNotification>().defaultAnswer = defaultAnswer;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
-//    public void AddRedPill(UMI3DUser user, string bone)
-//    {
-//        if (!roleDictionary.ContainsValue(UserRole.RedPill) && !roleDictionary.ContainsKey(user.UserId))
-//        {
-//            roleDictionary.Add(user.UserId, UserRole.RedPill);
+    public void AddRedPill(UMI3DTrackedUser user, string bone)
+    {
+        if (!roleDictionary.ContainsValue(UserRole.RedPill) && !roleDictionary.ContainsKey(user.Id()))
+        {
+            roleDictionary.Add(user.Id(), UserRole.RedPill);
 
-//            switch (communication)
-//            {
-//                case Communication.None:
-//                    break;
-//                case Communication.Voice:
-//                    break;
-//                case Communication.Glyphs:
-//                    redGlyph = (Instantiate(prefabRedGlyph, user.avatar.anchor.transform)).GetComponentInChildren<Image>();
-//                    ArrangeChildren(redButtonsFeedbackAnchor.transform, redFeedbackTextures, UserRole.RedPill);
-//                    ArrangeChildren(redButtonsDirectionAnchor.transform, redDirectionTextures, UserRole.RedPill);
-//                    ArrangeChildren(redButtonsRotationAnchor.transform, redRotationTextures, UserRole.RedPill);
-//                    break;
-//                case Communication.Expressions:
-//                    redCom = Instantiate(prefabRedCommunicator, user.avatar.anchor.transform);
-//                    redCom.GetComponent<StringEnumParameter>().options = blueExpressions;
-//                    redCom.GetComponent<TangramNotification>().duration = alertDuration;
-//                    redCom.GetComponent<TangramNotification>().defaultAnswer = defaultAnswer;
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//    }
+            switch (communication)
+            {
+                case Communication.None:
+                    break;
+                case Communication.Voice:
+                    break;
+                case Communication.Glyphs:
+                    redGlyph = (Instantiate(prefabRedGlyph, user.Avatar.transform)).GetComponentInChildren<Image>();
+                    ArrangeChildren(redButtonsFeedbackAnchor.transform, redFeedbackTextures, UserRole.RedPill);
+                    ArrangeChildren(redButtonsDirectionAnchor.transform, redDirectionTextures, UserRole.RedPill);
+                    ArrangeChildren(redButtonsRotationAnchor.transform, redRotationTextures, UserRole.RedPill);
+                    break;
+                case Communication.Expressions:
+                    redCom = Instantiate(prefabRedCommunicator, user.Avatar.transform);
+                    redCom.GetComponent<StringEnumParameter>().options = blueExpressions;
+                    redCom.GetComponent<TangramNotification>().duration = alertDuration;
+                    redCom.GetComponent<TangramNotification>().defaultAnswer = defaultAnswer;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
-//    public void RemoveRole(UMI3DUser user, string bone)
-//    {
-//        UserRole role = roleDictionary[user.UserId];
+    public void RemoveRole(UMI3DUser user, string bone)
+    {
+        UserRole role = roleDictionary[user.Id()];
 
-//        if (role.Equals(UserRole.BluePill))
-//        {
-//            switch (communication)
-//            {
-//                case Communication.None:
-//                    break;
-//                case Communication.Voice:
-//                    break;
-//                case Communication.Glyphs:
-//                    Destroy(blueGlyph.transform.parent.gameObject);
+        if (role.Equals(UserRole.BluePill))
+        {
+            switch (communication)
+            {
+                case Communication.None:
+                    break;
+                case Communication.Voice:
+                    break;
+                case Communication.Glyphs:
+                    Destroy(blueGlyph.transform.parent.gameObject);
 
-//                    foreach (Transform child in blueButtonsAnchor.transform)
-//                        Destroy(child.gameObject);
+                    foreach (Transform child in blueButtonsAnchor.transform)
+                        Destroy(child.gameObject);
 
-//                    break;
-//                case Communication.Expressions:
-//                    Destroy(blueCom);
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//        else
-//        {
-//            switch (communication)
-//            {
-//                case Communication.None:
-//                    break;
-//                case Communication.Voice:
-//                    break;
-//                case Communication.Glyphs:
-//                    Destroy(redGlyph.transform.parent.gameObject);
+                    break;
+                case Communication.Expressions:
+                    Destroy(blueCom);
+                    break;
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            switch (communication)
+            {
+                case Communication.None:
+                    break;
+                case Communication.Voice:
+                    break;
+                case Communication.Glyphs:
+                    Destroy(redGlyph.transform.parent.gameObject);
 
-//                    foreach (Transform child in redButtonsFeedbackAnchor.transform)
-//                        Destroy(child.gameObject);
+                    foreach (Transform child in redButtonsFeedbackAnchor.transform)
+                        Destroy(child.gameObject);
 
-//                    foreach (Transform child in redButtonsDirectionAnchor.transform)
-//                        Destroy(child.gameObject);
+                    foreach (Transform child in redButtonsDirectionAnchor.transform)
+                        Destroy(child.gameObject);
 
-//                    foreach (Transform child in redButtonsRotationAnchor.transform)
-//                        Destroy(child.gameObject);
+                    foreach (Transform child in redButtonsRotationAnchor.transform)
+                        Destroy(child.gameObject);
 
-//                    break;
-//                case Communication.Expressions:
-//                    Destroy(redCom);
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
+                    break;
+                case Communication.Expressions:
+                    Destroy(redCom);
+                    break;
+                default:
+                    break;
+            }
+        }
 
-//        RemoveUser(user.UserId);
-//    }
+        RemoveUser(user.Id());
+    }
 
-//    public void NextPiece(UMI3DUser user, string bone)
-//    {
-//        if (visibilityIndex == 0 || (visibilityIndex < pieces.Count && pieces[visibilityIndex - 1].hasBeenPlaced))
-//        {
-//            pieces[visibilityIndex].isVisible = true;
-//            visibilityIndex++;
-//        }
-//    }
+    public void NextPiece(UMI3DUser user, string bone)
+    {
+        if (visibilityIndex == 0 || (visibilityIndex < pieces.Count && pieces[visibilityIndex - 1].hasBeenPlaced))
+        {
+            pieces[visibilityIndex].isVisible = true;
+            visibilityIndex++;
+        }
+    }
 
-//    public IEnumerator SetCommunicationFromWebPage(string mode)
-//    {
-//        SetCommunication(mode);
-//        yield return null;
-//    }
+    // OLD SDK
+    public IEnumerator SetCommunicationFromWebPage(string mode)
+    {
+        SetCommunication(mode);
+        yield return null;
+    }
 
-//    public IEnumerator ResetFromWebPage()
-//    {
-//        ResetTangram();
-//        yield return null;
-//    }
+    public IEnumerator ResetFromWebPage()
+    {
+        ResetTangram();
+        yield return null;
+    }
 
-//    protected void Reset()
-//    {
-//        foreach (TangramPiece piece in pieces)
-//        {
-//            piece.transform.localPosition = Vector3.zero;
-//            piece.transform.localRotation = Quaternion.identity;
-//            piece.isVisible = false;
-//            piece.hasBeenPlaced = false;
-//            roleDictionary.Clear();
-//            switch (communication)
-//            {
-//                case Communication.None:
-//                    break;
-//                case Communication.Voice:
-//                    break;
-//                case Communication.Glyphs:
+    protected void Reset()
+    {
+        foreach (TangramPiece piece in pieces)
+        {
+            piece.transform.localPosition = Vector3.zero;
+            piece.transform.localRotation = Quaternion.identity;
+            piece.isVisible = false;
+            piece.hasBeenPlaced = false;
+            roleDictionary.Clear();
+            switch (communication)
+            {
+                case Communication.None:
+                    break;
+                case Communication.Voice:
+                    break;
+                case Communication.Glyphs:
 
-//                    if (blueGlyph != null)
-//                    {
-//                        blueGlyph.StopCoroutine("GlyphDisappearing");
-//                        Destroy(blueGlyph.transform.parent.gameObject);
-//                    }
+                    if (blueGlyph != null)
+                    {
+                        blueGlyph.StopCoroutine("GlyphDisappearing");
+                        Destroy(blueGlyph.transform.parent.gameObject);
+                    }
 
-//                    if (redGlyph != null)
-//                    {
-//                        redGlyph.StopCoroutine("GlyphDisappearing");
-//                        Destroy(redGlyph.transform.parent.gameObject);
-//                    }
+                    if (redGlyph != null)
+                    {
+                        redGlyph.StopCoroutine("GlyphDisappearing");
+                        Destroy(redGlyph.transform.parent.gameObject);
+                    }
 
-//                    foreach (Transform child in blueButtonsAnchor.transform)   
-//                        Destroy(child.gameObject); 
-                    
-//                    foreach (Transform child in redButtonsFeedbackAnchor.transform)
-//                        Destroy(child.gameObject);
+                    foreach (Transform child in blueButtonsAnchor.transform)
+                        Destroy(child.gameObject);
 
-//                    foreach (Transform child in redButtonsDirectionAnchor.transform)
-//                        Destroy(child.gameObject);
+                    foreach (Transform child in redButtonsFeedbackAnchor.transform)
+                        Destroy(child.gameObject);
 
-//                    foreach (Transform child in redButtonsRotationAnchor.transform)
-//                        Destroy(child.gameObject);
+                    foreach (Transform child in redButtonsDirectionAnchor.transform)
+                        Destroy(child.gameObject);
 
-//                    break;
-//                case Communication.Expressions:
-//                    Destroy(blueCom);
-//                    Destroy(redCom);
-//                    break;
-//                default:
-//                    break;
-//            }
-//            communication = Communication.None;
-//            visibilityIndex = 0;
-//        }
+                    foreach (Transform child in redButtonsRotationAnchor.transform)
+                        Destroy(child.gameObject);
 
-//        foreach (UMI3DUser user in UMI3D.UserManager.GetUsers())
-//        {
-//            resetSpawnPoint.TeleportUser(user, resetSpawnPoint.transform);
-//        }
-//    }
+                    break;
+                case Communication.Expressions:
+                    Destroy(blueCom);
+                    Destroy(redCom);
+                    break;
+                default:
+                    break;
+            }
+            communication = Communication.None;
+            visibilityIndex = 0;
+        }
 
-//    public void ResetTangram()
-//    {
-//        Reset();
-//        RandomizePieces();
-//        dropdown.value = 0;    
-//    }
+        foreach (UMI3DUser user in UMI3DCollaborationServer.Collaboration.Users)
+        {
+            resetSpawnPoint.TeleportUser(user, resetSpawnPoint.transform);
+        }
+    }
 
-//    protected void SetCommunication(string mode)
-//    {
-//        Reset();
-//        Debug.Log(mode);
-//        communication = (Communication)System.Enum.Parse(typeof(Communication), char.ToUpper(mode[0]) + mode.Substring(1));
-//        Debug.Log(communication.ToString());
-//    }
+    public void ResetTangram()
+    {
+        Reset();
+        RandomizePieces();
+        dropdown.value = 0;
+    }
 
-//    public void SetCommunication(Text mode)
-//    {
-//        Reset();
-//        communication = (Communication)System.Enum.Parse(typeof(Communication), mode.text);
-//    }
+    protected void SetCommunication(string mode)
+    {
+        Reset();
+        Debug.Log(mode);
+        communication = (Communication)System.Enum.Parse(typeof(Communication), char.ToUpper(mode[0]) + mode.Substring(1));
+        Debug.Log(communication.ToString());
+    }
 
-//    public void TransmitGlyph(UMI3DUser user, Image img)
-//    {
-//        if (user != null && img != null)
-//        {
-//            Image glyph;
+    public void SetCommunication(Text mode)
+    {
+        Reset();
+        communication = (Communication)System.Enum.Parse(typeof(Communication), mode.text);
+    }
 
-//            UserRole role = roleDictionary[user.UserId];
+    public void TransmitGlyph(UMI3DUser user, Image img)
+    {
+        if (user != null && img != null)
+        {
+            Image glyph;
 
-//            if (role.Equals(UserRole.BluePill))
-//                glyph = blueGlyph;
+            UserRole role = roleDictionary[user.Id()];
 
-//            else
-//                glyph = redGlyph;
+            if (role.Equals(UserRole.BluePill))
+                glyph = blueGlyph;
 
-//            GlyphDisplay(glyph, img);
-//        }
-//    }
+            else
+                glyph = redGlyph;
 
-//    public void GlyphDisplay(Image glyph, Image img)
-//    {
-//        glyph.GetComponent<UIImage>().sprite.Path = img.GetComponent<UIImage>().sprite.Path;
-//        Debug.Log(glyph.GetComponent<UIImage>().sprite.Path);
-//        glyph.color = new Color(1, 1, 1, 1);
-//        glyph.sprite = img.sprite;
-//        StartCoroutine("GlyphDisappearing", glyph);
-//    }
+            GlyphDisplay(glyph, img);
+        }
+    }
 
-//    IEnumerator GlyphDisappearing(Image glyph)
-//    {
-//        float duration = glyphDuration;
-//        while (duration >= 0.2f)
-//        {
-//            duration -= Time.deltaTime; 
-//            yield return null;
-//        }
+    public void GlyphDisplay(Image glyph, Image img)
+    {
+        // How to choose variant ?
 
-//        glyph.color = new Color(1, 1, 1, 0);
-//        glyph.GetComponent<UIImage>().sprite.Path = "";
-//        glyph.sprite = null;
-//    }
+        glyph.GetComponent<UIImage>().sprite.variants[0].path = img.GetComponent<UIImage>().sprite.variants[0].path;
+        //Debug.Log(glyph.GetComponent<UIImage>().sprite.variants[0].path);
+        glyph.color = new Color(1, 1, 1, 1);
+        glyph.sprite = img.sprite;
+        StartCoroutine("GlyphDisappearing", glyph);
+    }
 
-//    private const int Columns = 3;
-//    private const float Space = 0.12f;
+    IEnumerator GlyphDisappearing(Image glyph)
+    {
+        float duration = glyphDuration;
+        while (duration >= 0.2f)
+        {
+            duration -= Time.deltaTime;
+            yield return null;
+        }
 
-//    private void ArrangeChildren(Transform buttonAnchor, List<Sprite> sprites, UserRole role)
-//    {
-//        Transform[] children;
+        glyph.color = new Color(1, 1, 1, 0);
+        glyph.GetComponent<UIImage>().sprite.variants[0].path = "";
+        glyph.sprite = null;
+    }
 
-//        children = new Transform[sprites.Count];
+    private const int Columns = 3;
+    private const float Space = 0.12f;
 
-//        for (int i = 0; i < children.Length; i++)
-//        {
-//            children[i] = Instantiate(buttonPrefab).transform;
-//            children[i].localScale = 0.39f * children[i].localScale;
-//            children[i].parent = buttonAnchor;
-//            children[i].localRotation = Quaternion.identity;
-//            int row = i / Columns;
-//            int column = i % Columns;
-//            children[i].localPosition = new Vector3(-column * 0.55f * Space, -row * 0.7f * Space, 0);
+    private void ArrangeChildren(Transform buttonAnchor, List<Sprite> sprites, UserRole role)
+    {
+        Transform[] children;
 
-//            PillSeeFilter filter = children[i].gameObject.AddComponent<PillSeeFilter>();
-//            filter.userRole = role;
-//            filter.canSee = true;
+        children = new Transform[sprites.Count];
 
-//            children[i].GetComponentInChildren<Image>().sprite = sprites[i];
-//            children[i].GetComponentInChildren<UIImage>().sprite.IsLocalFile = true;
-//            children[i].GetComponentInChildren<UIImage>().sprite.Path = "/Textures/Tangram/" + sprites[i].name + ".png";
-//            children[i].GetComponentInChildren<TangramNotification>().duration = alertDuration;
-//        }
-//    }
+        for (int i = 0; i < children.Length; i++)
+        {
+            children[i] = Instantiate(buttonPrefab).transform;
+            children[i].localScale = 0.39f * children[i].localScale;
+            children[i].parent = buttonAnchor;
+            children[i].localRotation = Quaternion.identity;
+            int row = i / Columns;
+            int column = i % Columns;
+            children[i].localPosition = new Vector3(-column * 0.55f * Space, -row * 0.7f * Space, 0);
 
-//    private void Awake()
-//    {
+            PillSeeFilter filter = children[i].gameObject.AddComponent<PillSeeFilter>();
+            filter.userRole = role;
+            filter.canSee = true;
 
-//        Instance = Manager;
+            // verify if need libraryKey -> Check ResearchUserIntent
+            children[i].GetComponentInChildren<Image>().sprite = sprites[i];
+            children[i].GetComponentInChildren<UIImage>().sprite.variants[0].isLocalFile = true;
+            children[i].GetComponentInChildren<UIImage>().sprite.variants[0].path = "/Textures/Tangram/" + sprites[i].name + ".png";
+            children[i].GetComponentInChildren<TangramNotification>().duration = alertDuration;
+        }
+    }
 
-//        //if (instance != null && instance != this)
-//        //{
-//        //    if (instance.gameObject.name == this.gameObject.name)
-//        //        Debug.LogWarning("There is already a Singleton<" + typeof(TangramGameManager) + "> , instance on " + this.gameObject.name + " will be exterminated. This could occur after reloaded a scene with a PersistentSingleton in it");
-//        //    else
-//        //        Debug.LogError("There is already a Singleton<" + typeof(TangramGameManager) + "> , instance on " + this.gameObject.name + " will be exterminated.");
-//        //    Destroy(this);
-//        //}
-//        //else
-//        //{
-//        //    instance = this as TangramGameManager;
-//        //    DontDestroyOnLoad(this);
-//        //}
+    private void Awake()
+    {
 
-//        UMI3D.OnUserQuit.AddListener((UMI3DUser user) =>
-//        {
-//            roleDictionary.Remove(user.UserId);
-//        });
+        Instance = Manager;
 
-//        ResetEvent.AddListener(Reset);
-//    }
+        //if (instance != null && instance != this)
+        //{
+        //    if (instance.gameObject.name == this.gameObject.name)
+        //        Debug.LogWarning("There is already a Singleton<" + typeof(TangramGameManager) + "> , instance on " + this.gameObject.name + " will be exterminated. This could occur after reloaded a scene with a PersistentSingleton in it");
+        //    else
+        //        Debug.LogError("There is already a Singleton<" + typeof(TangramGameManager) + "> , instance on " + this.gameObject.name + " will be exterminated.");
+        //    Destroy(this);
+        //}
+        //else
+        //{
+        //    instance = this as TangramGameManager;
+        //    DontDestroyOnLoad(this);
+        //}
 
-//}
+        UMI3DServer.Instance.OnUserLeave.AddListener((UMI3DUser user) =>
+        {
+            roleDictionary.Remove(user.Id());
+        });
 
-//public static class ListExtensions
-//{
-//    public static void Shuffle<T>(this IList<T> list)
-//    {
-//        System.Random randomInt = new System.Random();
-//        for (var index = 0; index < list.Count; index++)
-//            list.Swap(index, randomInt.Next(index, list.Count));
-//    }
+        ResetEvent.AddListener(Reset);
+    }
 
-//    public static void Swap<T>(this IList<T> list, int i, int j)
-//    {
-//        var tmp = list[i];
-//        list[i] = list[j];
-//        list[j] = tmp;
-//    }
+}
+
+public static class ListExtensions
+{
+    public static void Shuffle<T>(this IList<T> list)
+    {
+        System.Random randomInt = new System.Random();
+        for (var index = 0; index < list.Count; index++)
+            list.Swap(index, randomInt.Next(index, list.Count));
+    }
+
+    public static void Swap<T>(this IList<T> list, int i, int j)
+    {
+        var tmp = list[i];
+        list[i] = list[j];
+        list[j] = tmp;
+    }
 }
 
 public enum UserRole

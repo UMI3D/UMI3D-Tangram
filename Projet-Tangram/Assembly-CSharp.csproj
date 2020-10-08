@@ -69,6 +69,7 @@
     <Compile Include="Assets\Project\Scripts\TangramStand\PillSeeFilter.cs" />
     <Compile Include="Assets\Project\Scripts\TangramStand\SnapTangram.cs" />
     <Compile Include="Assets\Project\Scripts\TangramStand\TangramGameManager.cs" />
+    <Compile Include="Assets\Project\Scripts\TangramStand\TangramModificationListener.cs" />
     <Compile Include="Assets\Project\Scripts\TangramStand\TangramNotification.cs" />
     <Compile Include="Assets\Project\Scripts\TangramStand\TangramPiece.cs" />
     <Compile Include="Assets\Project\Scripts\TangramStand\TangramPieceFilter.cs" />
